@@ -1,0 +1,1438 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SupportPilot | Intelligent IT Support</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+:root {
+    --blue:#3867F5;
+    --blue-dark:#244CCF;
+    --navy:#14213D;
+    --text:#34415B;
+    --muted:#748198;
+    --border:#E4E9F2;
+    --bg:#F3F6FB;
+    --green:#15966A;
+}
+
+* { box-sizing:border-box; }
+
+body {
+    margin:0;
+    background:var(--bg);
+    color:var(--navy);
+    font-family:'DM Sans',sans-serif;
+    font-size:15px;
+}
+
+button,input,select,textarea { font:inherit; }
+button { cursor:pointer; }
+
+/* HEADER */
+
+.header {
+    height:76px;
+    background:white;
+    border-bottom:1px solid var(--border);
+    position:sticky;
+    top:0;
+    z-index:50;
+}
+
+.header-inner {
+    max-width:1500px;
+    height:100%;
+    margin:auto;
+    padding:0 35px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.brand {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:24px;
+    font-weight:800;
+    letter-spacing:-1px;
+}
+
+.brand-icon {
+    width:42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    border-radius:12px;
+    background:var(--blue);
+    color:white;
+    font-size:21px;
+}
+
+.brand span { color:var(--blue); }
+
+.header-right {
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.online {
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:10px 15px;
+    background:#EAF8F1;
+    border-radius:30px;
+    color:var(--green);
+    font-size:12px;
+    font-weight:800;
+}
+
+.online-dot {
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#19A66E;
+    animation:pulse 1.8s infinite;
+}
+
+.avatar {
+    height:40px;
+    width:40px;
+    border-radius:50%;
+    background:#E8EEFF;
+    color:var(--blue);
+    display:grid;
+    place-items:center;
+    font-weight:800;
+}
+
+
+/* PAGE NAVIGATION */
+
+.page-nav {
+    max-width:1500px;
+    margin:22px auto 0;
+    padding:0 35px;
+    display:flex;
+    gap:10px;
+}
+
+.page-tab {
+    border:1px solid var(--border);
+    background:white;
+    color:var(--muted);
+    padding:11px 20px;
+    border-radius:9px;
+    font-weight:700;
+    transition:.2s;
+}
+
+.page-tab.active {
+    background:var(--blue);
+    border-color:var(--blue);
+    color:white;
+}
+
+.page-tab:hover {
+    border-color:var(--blue);
+}
+
+.history-placeholder {
+    background:white;
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:35px;
+    text-align:center;
+}
+
+@media(max-width:650px) {
+    .page-nav {
+        padding:0 13px;
+    }
+}
+
+/* PAGE */
+
+.container-main {
+    max-width:1500px;
+    margin:auto;
+    padding:32px 35px 35px;
+}
+
+.welcome {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:27px;
+    animation:fadeUp .5s ease;
+}
+
+.welcome h1 {
+    font-size:30px;
+    font-weight:800;
+    letter-spacing:-1px;
+    margin:0 0 7px;
+}
+
+.welcome p {
+    font-size:15px;
+    color:var(--muted);
+    margin:0;
+}
+
+.welcome-tag {
+    padding:10px 15px;
+    border:1px solid var(--border);
+    background:white;
+    border-radius:9px;
+    font-size:13px;
+    font-weight:700;
+    color:var(--text);
+}
+
+/* SUMMARY CARDS */
+
+.stats {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.stat {
+    background:white;
+    border:1px solid var(--border);
+    border-radius:13px;
+    padding:20px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    transition:.25s;
+}
+
+.stat:hover {
+    transform:translateY(-3px);
+    border-color:#B9C9FF;
+    box-shadow:0 8px 22px rgba(35,61,120,.06);
+}
+
+.stat-icon {
+    width:49px;
+    height:49px;
+    flex-shrink:0;
+    display:grid;
+    place-items:center;
+    border-radius:13px;
+    font-size:22px;
+}
+
+.blue {background:#EDF1FF;color:#3867F5;}
+.green {background:#EAF8F1;color:#15966A;}
+.purple {background:#F2EDFF;color:#855BE2;}
+
+.stat-label {
+    font-size:13px;
+    color:var(--muted);
+}
+
+.stat-title {
+    font-size:16px;
+    font-weight:800;
+    margin-top:3px;
+}
+
+/* MAIN LAYOUT */
+
+.workspace {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 340px;
+    gap:22px;
+    align-items:start;
+}
+
+.panel {
+    background:white;
+    border:1px solid var(--border);
+    border-radius:15px;
+    box-shadow:0 3px 12px rgba(25,45,80,.025);
+}
+
+.form-panel {
+    padding:30px;
+    min-width:0;
+}
+
+.panel-title {
+    font-size:23px;
+    font-weight:800;
+    letter-spacing:-.6px;
+}
+
+.panel-subtitle {
+    color:var(--muted);
+    font-size:15px;
+    margin-top:7px;
+    line-height:1.6;
+}
+
+/* PROGRESS */
+
+.progress-steps {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    margin:30px 0 32px;
+    position:relative;
+}
+
+.progress-steps:before {
+    content:"";
+    position:absolute;
+    height:3px;
+    top:18px;
+    left:15%;
+    right:15%;
+    background:#E9EDF5;
+}
+
+.step {
+    position:relative;
+    z-index:2;
+    display:flex;
+    align-items:center;
+    flex-direction:column;
+    gap:9px;
+}
+
+.step-circle {
+    height:37px;
+    width:37px;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    border:2px solid #DFE5EF;
+    background:white;
+    color:#8995AA;
+    font-size:14px;
+    font-weight:800;
+    transition:.25s;
+}
+
+.step.active .step-circle,
+.step.done .step-circle {
+    background:var(--blue);
+    border-color:var(--blue);
+    color:white;
+}
+
+.step-label {
+    color:#98A3B5;
+    font-size:13px;
+    font-weight:700;
+}
+
+.step.active .step-label,
+.step.done .step-label {
+    color:var(--blue);
+}
+
+/* FORM */
+
+.form-step { display:none; }
+
+.form-step.active {
+    display:block;
+    animation:fadeUp .35s ease;
+}
+
+.section-title {
+    font-size:12px;
+    font-weight:800;
+    color:#8793A9;
+    letter-spacing:1px;
+    margin-bottom:20px;
+}
+
+.field { margin-bottom:22px; }
+
+.field label {
+    display:block;
+    font-size:15px;
+    font-weight:700;
+    margin-bottom:9px;
+    color:var(--text);
+}
+
+.required { color:#DF5968; }
+
+.control {
+    display:block;
+    width:100%;
+    min-height:51px;
+    border:1px solid #DDE4EF;
+    border-radius:9px;
+    padding:12px 15px;
+    font-size:15px;
+    color:var(--navy);
+    background:#FBFCFE;
+    outline:none;
+    transition:.2s;
+}
+
+.control:focus {
+    background:white;
+    border-color:var(--blue);
+    box-shadow:0 0 0 3px rgba(56,103,245,.11);
+}
+
+.control::placeholder { color:#A0AABD; }
+
+textarea.control {
+    min-height:145px;
+    resize:vertical;
+    line-height:1.65;
+}
+
+.field-help {
+    color:#8995A8;
+    font-size:12px;
+    margin-top:8px;
+}
+
+.form-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+/* IMPACT */
+
+.impact-grid {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:13px;
+}
+
+.impact-card {
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+    padding:17px;
+    min-height:115px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:#FBFCFE;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.impact-card:hover {
+    transform:translateY(-3px);
+    border-color:#AABEFF;
+}
+
+.impact-card.selected {
+    border:1.5px solid var(--blue);
+    background:#F0F4FF;
+    box-shadow:0 0 0 2px rgba(56,103,245,.07);
+}
+
+.impact-card input { display:none; }
+
+.impact-card i { font-size:21px; }
+.impact-card strong { font-size:15px; }
+.impact-card small { font-size:12px; color:var(--muted); }
+
+.impact-low i {color:#15966A;}
+.impact-medium i {color:#D89B28;}
+.impact-high i {color:#DD5C64;}
+
+/* REVIEW */
+
+.review-box {
+    padding:18px;
+    border:1px solid var(--border);
+    background:#FAFBFE;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+.review-heading {
+    font-size:15px;
+    font-weight:800;
+    margin-bottom:17px;
+}
+
+.review-row {
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:13px;
+    font-size:14px;
+}
+
+.review-row:last-child {margin-bottom:0;}
+.review-key {color:var(--muted);}
+.review-value {font-weight:700;text-align:right;overflow-wrap:anywhere;}
+
+.review-description {
+    color:var(--text);
+    font-size:14px;
+    line-height:1.7;
+    overflow-wrap:anywhere;
+}
+
+/* ACTIONS */
+
+.actions {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    border-top:1px solid var(--border);
+    padding-top:23px;
+    margin-top:25px;
+}
+
+.btn-primary-custom,
+.btn-secondary-custom {
+    min-height:48px;
+    border-radius:9px;
+    padding:0 21px;
+    font-size:14px;
+    font-weight:800;
+    transition:.2s;
+}
+
+.btn-primary-custom {
+    background:var(--blue);
+    color:white;
+    border:1px solid var(--blue);
+}
+
+.btn-primary-custom:hover {
+    background:var(--blue-dark);
+    transform:translateY(-2px);
+    box-shadow:0 6px 15px rgba(56,103,245,.2);
+}
+
+.btn-secondary-custom {
+    background:white;
+    color:var(--text);
+    border:1px solid var(--border);
+}
+
+.btn-secondary-custom:hover {background:#F5F7FC;}
+
+/* SIDEBAR */
+
+.sidebar {
+    padding:20px;
+    position:sticky;
+    top:96px;
+}
+
+.ai-card {
+    padding:20px;
+    color:white;
+    border-radius:12px;
+    background:linear-gradient(135deg,#182C51,#294679);
+    margin-bottom:23px;
+}
+
+.ai-icon {
+    height:42px;
+    width:42px;
+    display:grid;
+    place-items:center;
+    border-radius:11px;
+    background:rgba(255,255,255,.14);
+    font-size:21px;
+    margin-bottom:14px;
+}
+
+.ai-card h3 {
+    font-size:17px;
+    font-weight:800;
+    margin:0 0 9px;
+}
+
+.ai-card p {
+    color:#D6E1F6;
+    font-size:14px;
+    line-height:1.7;
+    margin:0;
+}
+
+.side-heading {
+    font-size:16px;
+    font-weight:800;
+    margin:22px 0 16px;
+}
+
+.workflow {
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    margin-bottom:18px;
+}
+
+.workflow-icon {
+    width:37px;
+    height:37px;
+    flex-shrink:0;
+    display:grid;
+    place-items:center;
+    background:#EEF2FF;
+    color:var(--blue);
+    border-radius:10px;
+    font-size:17px;
+}
+
+.workflow strong {
+    display:block;
+    font-size:14px;
+    margin:2px 0 4px;
+}
+
+.workflow span {
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.5;
+}
+
+/* RESULT */
+
+.result-panel {
+    display:none;
+    margin-top:24px;
+    padding:22px;
+    border:1px solid #CBE9D9;
+    background:#F3FBF6;
+    border-radius:12px;
+    animation:fadeUp .4s ease;
+}
+
+.result-heading {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:18px;
+    font-weight:800;
+}
+
+.result-icon {
+    height:38px;
+    width:38px;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    color:#168D5B;
+    background:#DDF3E5;
+}
+
+.result-subtitle {
+    font-size:14px;
+    color:var(--muted);
+    margin:9px 0 17px;
+}
+
+.result-grid {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:11px;
+}
+
+.result-cell {
+    background:white;
+    padding:15px;
+    border:1px solid #E2EEE6;
+    border-radius:9px;
+}
+
+.result-cell span {
+    display:block;
+    font-size:12px;
+    color:var(--muted);
+}
+
+.result-cell strong {
+    display:block;
+    margin-top:6px;
+    font-size:16px;
+    overflow-wrap:anywhere;
+}
+
+.priority-result {color:#D28B1D;}
+
+.processing {
+    display:none;
+    align-items:center;
+    gap:12px;
+    padding:15px;
+    border-radius:9px;
+    margin-top:15px;
+    background:#EEF2FF;
+    color:var(--blue);
+    font-size:14px;
+    font-weight:700;
+}
+
+.spinner {
+    width:18px;
+    height:18px;
+    border:2px solid #C9D4FF;
+    border-top-color:var(--blue);
+    border-radius:50%;
+    animation:spin .7s linear infinite;
+}
+
+/* ANIMATIONS */
+
+@keyframes fadeUp {
+    from {opacity:0;transform:translateY(12px);}
+    to {opacity:1;transform:translateY(0);}
+}
+
+@keyframes pulse {
+    50% {opacity:.3;}
+}
+
+@keyframes spin {
+    to {transform:rotate(360deg);}
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px) {
+    .workspace {grid-template-columns:1fr;}
+    .sidebar {position:static;}
+}
+
+@media(max-width:650px) {
+    .header-inner {padding:0 15px;}
+    .brand {font-size:20px;}
+    .brand-icon {height:36px;width:36px;}
+    .header-right {gap:9px;}
+    .online {font-size:9px;padding:8px;}
+    .container-main {padding:24px 13px 25px;}
+    .welcome {align-items:flex-start;}
+    .welcome h1 {font-size:23px;}
+    .welcome p {font-size:13px;}
+    .welcome-tag {display:none;}
+    .stats {grid-template-columns:1fr;gap:10px;}
+    .stat {padding:15px;}
+    .form-panel {padding:19px;}
+    .panel-title {font-size:20px;}
+    .panel-subtitle {font-size:13px;}
+    .form-grid {grid-template-columns:1fr;gap:0;}
+    .impact-grid {grid-template-columns:1fr;}
+    .impact-card {min-height:80px;}
+    .step-label {font-size:10px;}
+    .result-grid {grid-template-columns:repeat(2,1fr);}
+    .sidebar {padding:16px;}
+    .actions {flex-wrap:wrap;}
+    .btn-primary-custom,.btn-secondary-custom {min-height:46px;}
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-inner">
+        <div class="brand">
+            <div class="brand-icon"><i class="bi bi-headset"></i></div>
+            <div>Support<span>Pilot</span></div>
+        </div>
+
+        <div class="header-right">
+            <div class="online">
+                <span class="online-dot"></span>
+                AI SYSTEM ONLINE
+            </div>
+            <div class="avatar">EP</div>
+        </div>
+    </div>
+</header>
+
+
+<nav class="page-nav" aria-label="Main navigation">
+    <button type="button" class="page-tab active" id="createTab">
+        <i class="bi bi-plus-circle me-2"></i>Create Ticket
+    </button>
+    <button type="button" class="page-tab" id="historyTab">
+        <i class="bi bi-clock-history me-2"></i>Ticket History
+    </button>
+</nav>
+
+<main class="container-main" id="createPage">
+
+    <section class="welcome">
+        <div>
+            <h1>Welcome to your support workspace</h1>
+            <p>Submit, classify and prioritize IT support requests with intelligent assistance.</p>
+        </div>
+        <div class="welcome-tag">
+            <i class="bi bi-shield-check me-1"></i> Employee portal
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stat">
+            <div class="stat-icon blue"><i class="bi bi-ticket-perforated"></i></div>
+            <div>
+                <div class="stat-label">Support workspace</div>
+                <div class="stat-title">Create a ticket</div>
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon green"><i class="bi bi-lightning-charge"></i></div>
+            <div>
+                <div class="stat-label">Automated processing</div>
+                <div class="stat-title">AI classification</div>
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon purple"><i class="bi bi-shield-check"></i></div>
+            <div>
+                <div class="stat-label">Intelligent assessment</div>
+                <div class="stat-title">Priority assignment</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="workspace">
+
+        <div class="panel form-panel">
+
+            <div class="panel-title">Create a support request</div>
+            <div class="panel-subtitle">
+                Provide the details below. SupportPilot will analyze your issue automatically.
+            </div>
+
+            <div class="progress-steps">
+                <div class="step active" id="indicator1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Employee details</div>
+                </div>
+                <div class="step" id="indicator2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Issue details</div>
+                </div>
+                <div class="step" id="indicator3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Review</div>
+                </div>
+            </div>
+
+            <form id="ticketForm">
+
+                <div class="form-step active" id="step1">
+                    <div class="section-title">01 / EMPLOYEE INFORMATION</div>
+
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="employee_name">Full name <span class="required">*</span></label>
+                            <input class="control" id="employee_name" required
+                                   placeholder="Enter your full name">
+                        </div>
+
+                        <div class="field">
+                            <label for="email">Work email <span class="required">*</span></label>
+                            <input class="control" type="email" id="email" required
+                                   placeholder="name@company.com">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="department">Department <span class="required">*</span></label>
+                        <select class="control" id="department" required>
+                            <option value="">Select your department</option>
+                            <option>IT</option>
+                            <option>HR</option>
+                            <option>Finance</option>
+                            <option>Operations</option>
+                            <option>Administration</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="actions">
+                        <span class="field-help">Please complete all required fields.</span>
+                        <button type="button" class="btn-primary-custom" id="next1">
+                            Continue <i class="bi bi-arrow-right ms-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-step" id="step2">
+                    <div class="section-title">02 / ISSUE INFORMATION</div>
+
+                    <div class="field">
+                        <label for="title">Ticket title <span class="required">*</span></label>
+                        <input class="control" id="title" required
+                               placeholder="Example: Unable to access office network">
+                    </div>
+
+                    <div class="field">
+                        <label for="description">Issue description <span class="required">*</span></label>
+                        <textarea class="control" id="description" required
+                                  minlength="10" maxlength="5000"
+                                  placeholder="Explain what happened, which service is affected and any error messages..."></textarea>
+                        <div class="field-help">
+                            <span id="charCount">0</span> / 5000 characters
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Business impact</label>
+                        <div class="impact-grid">
+
+                            <label class="impact-card impact-low">
+                                <input type="radio" name="impact" value="Low">
+                                <i class="bi bi-check-circle"></i>
+                                <strong>Low impact</strong>
+                                <small>Minor inconvenience</small>
+                            </label>
+
+                            <label class="impact-card impact-medium selected">
+                                <input type="radio" name="impact" value="Medium" checked>
+                                <i class="bi bi-activity"></i>
+                                <strong>Medium impact</strong>
+                                <small>Work is affected</small>
+                            </label>
+
+                            <label class="impact-card impact-high">
+                                <input type="radio" name="impact" value="High">
+                                <i class="bi bi-exclamation-triangle"></i>
+                                <strong>High impact</strong>
+                                <small>Major disruption</small>
+                            </label>
+
+                        </div>
+                        <div class="field-help">
+                            This describes business impact, not the AI-predicted severity.
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button type="button" class="btn-secondary-custom" id="back2">
+                            <i class="bi bi-arrow-left me-1"></i> Back
+                        </button>
+                        <button type="button" class="btn-primary-custom" id="next2">
+                            Review request <i class="bi bi-arrow-right ms-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-step" id="step3">
+                    <div class="section-title">03 / REVIEW AND SUBMIT</div>
+
+                    <div class="review-box">
+                        <div class="review-heading">
+                            <i class="bi bi-person-circle me-2"></i>Employee information
+                        </div>
+                        <div class="review-row">
+                            <span class="review-key">Full name</span>
+                            <span class="review-value" id="rName">—</span>
+                        </div>
+                        <div class="review-row">
+                            <span class="review-key">Email</span>
+                            <span class="review-value" id="rEmail">—</span>
+                        </div>
+                        <div class="review-row">
+                            <span class="review-key">Department</span>
+                            <span class="review-value" id="rDepartment">—</span>
+                        </div>
+                    </div>
+
+                    <div class="review-box">
+                        <div class="review-heading">
+                            <i class="bi bi-ticket me-2"></i>Issue details
+                        </div>
+                        <div class="review-row">
+                            <span class="review-key">Title</span>
+                            <span class="review-value" id="rTitle">—</span>
+                        </div>
+                        <div class="review-row">
+                            <span class="review-key">Business impact</span>
+                            <span class="review-value" id="rImpact">—</span>
+                        </div>
+                        <div class="review-heading mt-3">Description</div>
+                        <div class="review-description" id="rDescription">—</div>
+                    </div>
+
+                    <div class="processing" id="processing">
+                        <span class="spinner"></span>
+                        Analyzing your ticket with SupportPilot AI...
+                    </div>
+
+                    <div class="actions">
+                        <button type="button" class="btn-secondary-custom" id="back3">
+                            <i class="bi bi-arrow-left me-1"></i> Back
+                        </button>
+                        <button type="submit" class="btn-primary-custom" id="submit">
+                            <i class="bi bi-send me-1"></i> Submit ticket
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+            <div class="result-panel" id="result" aria-live="polite"></div>
+
+        </div>
+
+        <aside class="panel sidebar">
+
+            <div class="ai-card">
+                <div class="ai-icon"><i class="bi bi-stars"></i></div>
+                <h3>Intelligent ticket processing</h3>
+                <p>
+                    SupportPilot uses machine learning and intelligent rules
+                    to understand, assess and prioritize your IT request.
+                </p>
+            </div>
+
+            <div class="side-heading">How SupportPilot works</div>
+
+            <div class="workflow">
+                <div class="workflow-icon"><i class="bi bi-inbox"></i></div>
+                <div>
+                    <strong>Ticket ingestion</strong>
+                    <span>Your request enters the support workflow.</span>
+                </div>
+            </div>
+
+            <div class="workflow">
+                <div class="workflow-icon"><i class="bi bi-cpu"></i></div>
+                <div>
+                    <strong>AI classification</strong>
+                    <span>The model predicts the ticket category.</span>
+                </div>
+            </div>
+
+            <div class="workflow">
+                <div class="workflow-icon"><i class="bi bi-speedometer2"></i></div>
+                <div>
+                    <strong>Severity assessment</strong>
+                    <span>Rules assess the issue severity.</span>
+                </div>
+            </div>
+
+            <div class="workflow">
+                <div class="workflow-icon"><i class="bi bi-flag"></i></div>
+                <div>
+                    <strong>Priority assignment</strong>
+                    <span>A priority level is calculated.</span>
+                </div>
+            </div>
+
+        </aside>
+
+    </section>
+
+</main>
+
+
+<section id="historyPage" class="container-main" style="display:none;">
+    <section class="welcome">
+        <div>
+            <h1>Ticket History</h1>
+            <p>View and track your previously submitted support tickets.</p>
+        </div>
+        <div class="welcome-tag">
+            <i class="bi bi-database-check me-1"></i> Saved tickets
+        </div>
+    </section>
+
+    <div class="history-placeholder" style="text-align:left;">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+            <div>
+                <h3 class="mb-1">Submitted tickets</h3>
+                <p style="color:#748198;margin:0;">Tickets retrieved from the SupportPilot database.</p>
+            </div>
+            <button type="button" class="btn btn-outline-primary" id="refreshHistory">
+                <i class="bi bi-arrow-clockwise me-1"></i> Refresh
+            </button>
+        </div>
+        <div id="historyMessage" class="text-muted py-4 text-center">Loading tickets...</div>
+        <div class="table-responsive" id="historyTableWrap" style="display:none;">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Ticket ID</th><th>Title</th><th>Employee</th><th>Department</th><th>Category</th>
+                        <th>Severity</th><th>Priority</th><th>Status</th><th>Created</th><th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody"></tbody>
+            </table>
+        </div>
+        <div id="ticketDetailPanel" class="mt-4 p-4" style="display:none;background:#f8fafc;border:1px solid #e3e8ef;border-radius:14px;">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="mb-0" id="ticketDetailHeading">Ticket details</h4>
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="closeTicketDetail">Close</button>
+            </div>
+            <div id="ticketDetailContent"></div>
+        </div>
+    </div>
+</section>
+
+<script>
+const form = document.getElementById("ticketForm");
+const result = document.getElementById("result");
+const processing = document.getElementById("processing");
+const submitButton = document.getElementById("submit");
+
+let currentStep = 1;
+
+function goToStep(step) {
+    currentStep = step;
+
+    document.querySelectorAll(".form-step").forEach((element, index) => {
+        element.classList.toggle("active", index + 1 === step);
+    });
+
+    for (let i = 1; i <= 3; i++) {
+        const indicator = document.getElementById("indicator" + i);
+        indicator.classList.toggle("active", i === step);
+        indicator.classList.toggle("done", i < step);
+
+        indicator.querySelector(".step-circle").innerHTML =
+            i < step ? '<i class="bi bi-check-lg"></i>' : i;
+    }
+}
+
+function validate(ids) {
+    for (const id of ids) {
+        const field = document.getElementById(id);
+        if (!field.value.trim() || !field.checkValidity()) {
+            field.reportValidity();
+            field.focus();
+            return false;
+        }
+    }
+    return true;
+}
+
+document.getElementById("next1").addEventListener("click", () => {
+    if (validate(["employee_name", "email", "department"])) {
+        goToStep(2);
+    }
+});
+
+document.getElementById("back2").addEventListener("click", () => goToStep(1));
+
+document.getElementById("next2").addEventListener("click", () => {
+    if (!validate(["title", "description"])) return;
+
+    document.getElementById("rName").textContent =
+        document.getElementById("employee_name").value;
+
+    document.getElementById("rEmail").textContent =
+        document.getElementById("email").value;
+
+    document.getElementById("rDepartment").textContent =
+        document.getElementById("department").value;
+
+    document.getElementById("rTitle").textContent =
+        document.getElementById("title").value;
+
+    document.getElementById("rDescription").textContent =
+        document.getElementById("description").value;
+
+    document.getElementById("rImpact").textContent =
+        document.querySelector('input[name="impact"]:checked').value;
+
+    goToStep(3);
+});
+
+document.getElementById("back3").addEventListener("click", () => {
+    processing.style.display = "none";
+    goToStep(2);
+});
+
+// Impact selection
+document.querySelectorAll('input[name="impact"]').forEach(input => {
+    input.addEventListener("change", () => {
+        document.querySelectorAll(".impact-card").forEach(card =>
+            card.classList.remove("selected")
+        );
+
+        input.closest(".impact-card").classList.add("selected");
+        document.getElementById("rImpact").textContent = input.value;
+    });
+});
+
+// Character counter
+document.getElementById("description").addEventListener("input", event => {
+    document.getElementById("charCount").textContent = event.target.value.length;
+});
+
+// Result card creation
+function resultCell(label, value, extraClass = "") {
+    const cell = document.createElement("div");
+    cell.className = "result-cell";
+
+    const heading = document.createElement("span");
+    heading.textContent = label;
+
+    const content = document.createElement("strong");
+    content.textContent = value;
+    content.className = extraClass;
+
+    cell.append(heading, content);
+    return cell;
+}
+
+// Submit ticket to Flask
+form.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    if (currentStep !== 3 || submitButton.disabled) return;
+
+    const ticket = {
+        employee_name: document.getElementById("employee_name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        department: document.getElementById("department").value,
+        title: document.getElementById("title").value.trim(),
+        description: document.getElementById("description").value.trim(),
+        business_impact:
+            document.querySelector('input[name="impact"]:checked').value
+    };
+
+    submitButton.disabled = true;
+    processing.style.display = "flex";
+    result.style.display = "none";
+
+    try {
+        const response = await fetch("/ticket", {
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify(ticket)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Unable to submit ticket.");
+        }
+
+        const t = data.ticket;
+        result.replaceChildren();
+
+        const heading = document.createElement("div");
+        heading.className = "result-heading";
+
+        const icon = document.createElement("div");
+        icon.className = "result-icon";
+        icon.innerHTML = '<i class="bi bi-check-lg"></i>';
+
+        const headingText = document.createElement("span");
+        headingText.textContent = "Ticket submitted successfully";
+
+        heading.append(icon, headingText);
+
+        const subtitle = document.createElement("div");
+        subtitle.className = "result-subtitle";
+        subtitle.textContent =
+            "Your ticket has been analyzed by the SupportPilot AI engine.";
+
+        const grid = document.createElement("div");
+        grid.className = "result-grid";
+
+        grid.append(
+            resultCell("Ticket ID", "#" + t.ticket_id),
+            resultCell("Category", t.category),
+            resultCell("Severity", t.severity),
+            resultCell("Priority", t.priority, "priority-result"),
+            resultCell("AI confidence", (t.confidence * 100).toFixed(2) + "%"),
+            resultCell("Business impact", t.business_impact)
+        );
+
+        result.append(heading, subtitle, grid);
+        result.style.display = "block";
+
+        result.scrollIntoView({behavior:"smooth",block:"nearest"});
+
+        form.reset();
+
+        document.querySelector('input[name="impact"][value="Medium"]').checked = true;
+
+        document.querySelectorAll(".impact-card").forEach(card =>
+            card.classList.toggle("selected",
+                card.querySelector("input").value === "Medium")
+        );
+
+        document.getElementById("charCount").textContent = "0";
+        goToStep(1);
+
+    } catch (error) {
+        result.replaceChildren();
+
+        const message = document.createElement("p");
+        message.style.color = "#C03945";
+        message.style.fontWeight = "700";
+        message.textContent = error.message;
+
+        result.append(message);
+        result.style.display = "block";
+
+    } finally {
+        processing.style.display = "none";
+        submitButton.disabled = false;
+    }
+});
+
+// PAGE NAVIGATION
+const createTab = document.getElementById("createTab");
+const historyTab = document.getElementById("historyTab");
+const createPage = document.getElementById("createPage");
+const historyPage = document.getElementById("historyPage");
+
+createTab.addEventListener("click", () => {
+    createPage.style.display = "block";
+    historyPage.style.display = "none";
+    createTab.classList.add("active");
+    historyTab.classList.remove("active");
+});
+
+historyTab.addEventListener("click", () => {
+    createPage.style.display = "none";
+    historyPage.style.display = "block";
+    historyTab.classList.add("active");
+    createTab.classList.remove("active");
+    loadTicketHistory();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+// LOAD SAVED TICKETS FROM FLASK / SQLITE
+const historyMessage = document.getElementById("historyMessage");
+const historyTableWrap = document.getElementById("historyTableWrap");
+const historyTableBody = document.getElementById("historyTableBody");
+
+function addHistoryCell(row, value) {
+    const cell = document.createElement("td");
+    cell.textContent = value ?? "—";
+    row.appendChild(cell);
+}
+
+async function loadTicketHistory() {
+    historyMessage.style.display = "block";
+    historyMessage.textContent = "Loading tickets...";
+    historyTableWrap.style.display = "none";
+    historyTableBody.replaceChildren();
+
+    try {
+        const response = await fetch("/tickets");
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Could not load ticket history.");
+
+        if (!data.tickets || data.tickets.length === 0) {
+            historyMessage.textContent = "No tickets have been submitted yet.";
+            return;
+        }
+
+        data.tickets.forEach(ticket => {
+            const row = document.createElement("tr");
+            addHistoryCell(row, "#" + ticket.ticket_id);
+            addHistoryCell(row, ticket.title);
+            addHistoryCell(row, ticket.employee_name);
+            addHistoryCell(row, ticket.department);
+            addHistoryCell(row, ticket.category);
+            addHistoryCell(row, ticket.severity);
+            addHistoryCell(row, ticket.priority);
+            addHistoryCell(row, ticket.status);
+            addHistoryCell(row, ticket.created_at);
+            const actionCell = document.createElement("td");
+            const viewButton = document.createElement("button");
+            viewButton.type = "button";
+            viewButton.className = "btn btn-sm btn-outline-primary";
+            viewButton.textContent = "View";
+            viewButton.addEventListener("click", () => loadTicketDetails(ticket.ticket_id));
+            actionCell.appendChild(viewButton);
+            row.appendChild(actionCell);
+            historyTableBody.appendChild(row);
+        });
+
+        historyMessage.style.display = "none";
+        historyTableWrap.style.display = "block";
+    } catch (error) {
+        historyMessage.textContent = error.message;
+    }
+}
+
+document.getElementById("refreshHistory").addEventListener("click", loadTicketHistory);
+
+// LOAD ONE TICKET USING THE EXISTING GET /tickets/<ticket_id> API
+const ticketDetailPanel = document.getElementById("ticketDetailPanel");
+const ticketDetailContent = document.getElementById("ticketDetailContent");
+
+async function loadTicketDetails(ticketId) {
+    ticketDetailPanel.style.display = "block";
+    ticketDetailContent.textContent = "Loading ticket details...";
+    document.getElementById("ticketDetailHeading").textContent = `Ticket #${ticketId}`;
+    ticketDetailPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+    try {
+        const response = await fetch(`/tickets/${ticketId}`);
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Could not load ticket details.");
+        const ticket = data.ticket;
+        const fields = [
+            ["Employee", ticket.employee_name],
+            ["Email", ticket.email],
+            ["Department", ticket.department],
+            ["Title", ticket.title],
+            ["Description", ticket.description],
+            ["Category", ticket.category],
+            ["Severity", ticket.severity],
+            ["Priority", ticket.priority],
+            ["AI Confidence",
+                ticket.confidence == null ? "—" : `${(Number(ticket.confidence) * 100).toFixed(1)}%`],
+            ["Status", ticket.status],
+            ["Created At", ticket.created_at]
+        ];
+        ticketDetailContent.replaceChildren();
+        const grid = document.createElement("div");
+        grid.className = "row g-3";
+        fields.forEach(([label, value]) => {
+            const col = document.createElement("div");
+            col.className = "col-md-6";
+            const item = document.createElement("div");
+            item.style.cssText = "background:#fff;padding:12px 14px;border-radius:10px;height:100%;";
+            const heading = document.createElement("div");
+            heading.style.cssText = "font-size:12px;color:#748198;font-weight:600;margin-bottom:5px;";
+            heading.textContent = label;
+            const valueEl = document.createElement("div");
+            valueEl.style.cssText = "font-size:14px;color:#263247;white-space:pre-wrap;overflow-wrap:anywhere;";
+            valueEl.textContent = value ?? "—";
+            item.append(heading, valueEl);
+            col.appendChild(item);
+            grid.appendChild(col);
+        });
+        ticketDetailContent.appendChild(grid);
+    } catch (error) {
+        ticketDetailContent.textContent = error.message;
+    }
+}
+
+document.getElementById("closeTicketDetail").addEventListener("click", () => {
+    ticketDetailPanel.style.display = "none";
+});
+
+</script>
+
+</body>
+</html>
